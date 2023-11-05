@@ -2,9 +2,11 @@
   "name": "youtube-backend",
   "version": "1.0.0",
   "description": "\"youtube clone with complex backend\"",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon dotenv/config src/index.js"
   },
   "keywords": [
     "javascript",
@@ -12,5 +14,13 @@
     "backend"
   ],
   "author": "Dheeraj Shrivastav",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
 }
