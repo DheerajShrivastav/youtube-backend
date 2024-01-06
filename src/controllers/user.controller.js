@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //console.log("email: ", email);
 
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === '')
+    [fullName, email, username, password].some((field) => (field || '').trim() === '')
   ) {
     throw new ApiError(400, 'All fields are required')
   }
@@ -97,21 +97,31 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-  let username = req.body.username.toLowerCase()
-  let email = req.body.email.toLowerCase()
+  
+  const { username, email, password } = req.body
+  console.log(req.body)
+  console.log('username: ', username)
+  console.log('email: ', email)
   if(username === '' || email === ''){
     throw new ApiError(400, 'Username or email is required')
   }
+  console.log('username: ', username)
+  console.log('email: ', email)
   const user = await User.findOne({ $or: [{ username }, { email }] })
+  
+  console.log('User: ', user)
   if (!user) {
     throw new ApiError(404, 'User not found')
   }
-  const isPasswordCorrect = await user.isPasswordCorrect(req.body.password)
+  const isPasswordCorrect = await user.isPasswordCorrect(password)
   if (!isPasswordCorrect) {
     throw new ApiError(401, 'Invalid credentials')
   }
   const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id)
-  const loggedInUser = await User.findByIdAndUpdate(user._id.select('-password -refreshToken'))
+  const loggedInUser = await User.findById(user._id).select(
+    '-password -refreshToken'
+  )
+
   const options = {
     httpOnly: true,
     secure: true,
