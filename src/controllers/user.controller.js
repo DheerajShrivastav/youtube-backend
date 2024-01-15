@@ -145,7 +145,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
-    { refreshToken: undefined },
+    { $unset: { refreshToken: 1 } },
     { new: true, runValidators: true }
   )
   const options = {
@@ -199,7 +199,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 })
 const updatePassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body
-
+  
   const user = await User.findById(req.user._id)
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
   if (!isPasswordCorrect) {
@@ -231,8 +231,9 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     {
       $set: { fullName, email, username },
       new: true,
-    }.select('-password -refreshToken')
-  )
+    }
+    ).select('-password -refreshToken')
+  
   if (!user) {
     throw new ApiError(500, 'Something went wrong while updating the user')
   }
@@ -259,14 +260,17 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     new: true,
   }).select('-password -refreshToken')
   if (!user) {
-    throw new ApiError(500, 'Something went wrong while updating the Avatar')
+    throw new ApiError(500, 'Something went wrong while updating the Avatar');
   }
-  await user.save({ validateBeforeSave: false })
-  //delet ther old avatar from cloudinary
-  if (oldUserAvatar) {
-    const publicId = oldUserAvatar.split('/').pop().split('.')[0]
-    await deleteFromCloudinary(publicId)
-  }
+  await user.save({ validateBeforeSave: false });
+  // Delete the old avatar from cloudinary
+  // if (oldUserAvatar) {
+  //   console.log("this is old avatar")
+  //   req.files?.avatar[0]?.path
+  //   console.log(typeof(oldUserAvatar))
+  //   const publicId = oldUserAvatar?.path.split('/').pop().split('.')[0];
+  //   await deleteFromCloudinary(publicId);
+  // }
 
   return res
     .status(200)
@@ -307,6 +311,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 })
 const getUserChannelProfile = asyncHandler(async (req, res) => {
   const { username } = req.params
+  console.log("this the username: ",username)
   if (!username) {
     throw new ApiError(400, 'Username is required')
   }
