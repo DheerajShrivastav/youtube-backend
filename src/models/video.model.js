@@ -21,7 +21,7 @@ const videoSchema = new mongoose.Schema({
     },
     duration: {
         type: Number,
-        required: true,
+        required: false,
     },
     views: {
         type: Number,
@@ -38,4 +38,4 @@ const videoSchema = new mongoose.Schema({
 },{ timestapms: true});
 
 videoSchema.plugin(mongooseAggregatePaginate)
-export default mongoose.model("Video", videoSchema);
+export const Video =  mongoose.model("Video", videoSchema);
