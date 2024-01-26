@@ -102,17 +102,5 @@ router
   .patch(verifyJwt, togglePublishStatus)
 
 
-// Routes for comments
-//get all comments for a video
-router.route('/:videoId/comments').get(getVideoComments)
-
-//add a comment to a video
-router.route('/:videoId/comments').post(addComment)
-
-//update a comment
-router.route('/:videoId/comments/:commentId').patch(updateComment)
-
-//delete a comment
-router.route('/:videoId/comments/:commentId').delete(deleteComment)
 
 export default router
