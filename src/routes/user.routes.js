@@ -18,6 +18,9 @@ import {
   publishAVideo,
   getAllVideos,
   getVideoById,
+  updateVideo,
+  deleteVideo,
+  togglePublishStatus,
 } from '../controllers/video.controller.js'
 import {
   getVideoComments,
@@ -79,6 +82,25 @@ router.route('/PublishVideo').post(
 
 // get a video by id
 router.route('/videos/Id/:videoId').get(getVideoById)
+
+// update a video
+router.route('/videos/Id/:videoId').patch(
+  verifyJwt,
+  upload.fields([
+    { name: 'file', maxCount: 1 },
+    { name: 'thumbnail', maxCount: 1 },
+  ]),
+  updateVideo
+)
+
+// delete a video
+router.route('/videos/Id/:videoId').delete(verifyJwt, deleteVideo)
+
+// toggle publish status
+router
+  .route('/videos/Id/:videoId/toggle-publish-status')
+  .patch(verifyJwt, togglePublishStatus)
+
 
 // Routes for comments
 //get all comments for a video
