@@ -10,4 +10,4 @@ const tweetSchema = new mongoose.Schema({
         ref: "User",
     },
 },{ timestapms: true});
-export default mongoose.model("Tweet", tweetSchema);
+export const Tweet =  mongoose.model("Tweet", tweetSchema);
