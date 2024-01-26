@@ -7,31 +7,30 @@ import { User } from '../models/user.model.js'
 
 const getVideoComments = asyncHandler(async (req, res) => {
   //TODO: get all comments for a video
-    const { videoId } = req.params;
-    const { page = 1, limit = 10 } = req.query;
+  const { videoId } = req.params
+  const { page = 1, limit = 10 } = req.query
 
-    const comments = await Comment.find({ video: videoId })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .exec();
+  const comments = await Comment.find({ video: videoId })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .exec()
 
-    console.log(comments);
+  console.log(comments)
 
-    const total = await Comment.countDocuments({ videoId: videoId });
-    const totalPages = Math.ceil(total / limit);
-    const hasNextPage = page < totalPages;
-    const hasPrevPage = page > 1;
-    const pagination = { hasNextPage, hasPrevPage, totalPages, total };
+  const total = await Comment.countDocuments({ videoId: videoId })
+  const totalPages = Math.ceil(total / limit)
+  const hasNextPage = page < totalPages
+  const hasPrevPage = page > 1
+  const pagination = { hasNextPage, hasPrevPage, totalPages, total }
 
-    const response = new ApiResponse(
-      201,
-      [comments, pagination],
-      'Comments retrieved successfully'
-    );
+  const response = new ApiResponse(
+    201,
+    [comments, pagination],
+    'Comments retrieved successfully'
+  )
 
-    res.json(response);
-  });
-
+  res.json(response)
+})
 
 const addComment = asyncHandler(async (req, res) => {
   // TODO: add a comment to a video
