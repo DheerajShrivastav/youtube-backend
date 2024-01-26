@@ -36,7 +36,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
   const total = await Video.countDocuments()
   const totalPages = Math.ceil(total / limit)
   const hasNextPage = page < totalPages && total > limit
-  const hasPrevPage = page > 1  && total > limit
+  const hasPrevPage = page > 1 && total > limit
   const pagination = { hasNextPage, hasPrevPage, totalPages, total }
   const response = new ApiResponse(
     videos,
@@ -44,7 +44,6 @@ const getAllVideos = asyncHandler(async (req, res) => {
     'Videos retrieved successfully'
   )
   res.json(response)
-
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
@@ -89,10 +88,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
 const getVideoById = asyncHandler(async (req, res) => {
   const { videoId } = req.params
   //TODO: get video by id
-  if(!videoId.trim()){
+  if (!videoId.trim()) {
     throw new ApiError(400, 'videoId is required')
   }
-  if(!isValidObjectId(videoId)){
+  if (!isValidObjectId(videoId)) {
     throw new ApiError(400, 'videoId is not valid')
   }
   const video = await Video.findById(videoId).populate('owner', {
@@ -108,15 +107,80 @@ const getVideoById = asyncHandler(async (req, res) => {
 const updateVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params
   //TODO: update video details like title, description, thumbnail
+  if (!videoId.trim()) {
+    throw new ApiError(400, 'videoId is required')
+  }
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, 'videoId is not valid')
+  }
+  const video = await Video.findById(videoId)
+  const fileLocalPath = req.files?.file[0]?.path
+  const thumbnailLocalPath = req.files?.thumbnail[0]?.path
+  const { title, description } = req.body
+
+  if (fileLocalPath) {
+    const file = await uploadOnCloudinary(fileLocalPath)
+    video.file = file.url
+  }
+  if (thumbnailLocalPath) {
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalPath)
+    video.thumbnail = thumbnail.url
+  }
+  if (title) {
+    video.title = title
+  }
+  if (description) {
+    video.description = description
+  }
+  await video.save({ validateBeforeSave: false })
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, 'Video updated successfully'))
 })
 
 const deleteVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params
   //TODO: delete video
+  if (!videoId.trim()) {
+    throw new ApiError(400, 'videoId is required')
+  }
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, 'videoId is not valid')
+  }
+  const video = await Video.findById(videoId)
+  if (!video) {
+    throw new ApiError(404, 'Video not found')
+  }
+  await Video.deleteOne({ _id: videoId })
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, 'Video deleted successfully'))
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
   const { videoId } = req.params
+  if (!videoId.trim()) {
+    throw new ApiError(400, 'videoId is required')
+  }
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, 'videoId is not valid')
+  }
+  const video = await Video.findById(videoId)
+  if (!video) {
+    throw new ApiError(404, 'Video not found')
+  }
+  video.isPublished = !video.isPublished
+  await video.save({ validateBeforeSave: false })
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        video,
+        `Video ${video.isPublished ? 'published' : 'unpublished'} successfully`
+      )
+    )
+
 })
 
 export {
