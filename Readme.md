@@ -59,7 +59,7 @@ Here's a quick rundown of the cool features I've added to this project:
 3. **Install the dependencies**: Use the following command to install the project dependencies:
 
     ```bash
-    npm start
+    npm dev
     ```
 
 4. **Set up the .env file**: Create a new file in the root directory of the project named `.env`. This file will contain all your environment variables. Based on your project structure, you might need to set variables for your database connection, Cloudinary, and any other services your app uses.
