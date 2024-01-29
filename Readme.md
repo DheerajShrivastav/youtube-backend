@@ -45,21 +45,21 @@ Here's a quick rundown of the cool features I've added to this project:
 1. **Clone the repository**: Use the following command to clone the repository:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/DheerajShrivastav/youtube-backend.git
     ```
     Replace `<repository_url>` with the URL of your repository.
 
 2. **Navigate to the project directory**: Use the following command to navigate to the project directory:
 
     ```bash
-    cd <project_directory>
+    cd youtube-backend
     ```
     Replace `<project_directory>` with the name of your project directory.
 
 3. **Install the dependencies**: Use the following command to install the project dependencies:
 
     ```bash
-    npm install
+    npm start
     ```
 
 4. **Set up the .env file**: Create a new file in the root directory of the project named `.env`. This file will contain all your environment variables. Based on your project structure, you might need to set variables for your database connection, Cloudinary, and any other services your app uses.
