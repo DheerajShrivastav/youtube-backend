@@ -39,3 +39,44 @@ Here's a quick rundown of the cool features I've added to this project:
 - **Cloudinary Integration**: The project uses Cloudinary for storing images. It's like a cloud-based gallery for all our app's pictures.
 
 - **Advanced Concepts**: I've applied some advanced concepts like aggregation pipelines and data modeling. It's like building a complex Lego set, piece by piece, until you have a complete model.
+
+## How to setup project
+
+1. **Clone the repository**: Use the following command to clone the repository:
+
+    ```bash
+    git clone <repository_url>
+    ```
+    Replace `<repository_url>` with the URL of your repository.
+
+2. **Navigate to the project directory**: Use the following command to navigate to the project directory:
+
+    ```bash
+    cd <project_directory>
+    ```
+    Replace `<project_directory>` with the name of your project directory.
+
+3. **Install the dependencies**: Use the following command to install the project dependencies:
+
+    ```bash
+    npm install
+    ```
+
+4. **Set up the .env file**: Create a new file in the root directory of the project named `.env`. This file will contain all your environment variables. Based on your project structure, you might need to set variables for your database connection, Cloudinary, and any other services your app uses.
+
+    Here's an example of what your `.env` file might look like:
+
+    ```env
+    DB_CONNECTION_STRING=mongodb+srv://username:password@cluster0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+    CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+    ```
+    Replace the values with your actual connection strings.
+
+5. **Start the server**: Use the following command to start the server:
+
+    ```bash
+    npm start
+    ```
+    Your server should now be running, and you can access it at `http://localhost:3000` or whatever port you've set in your environment variables.
+
+Remember to never commit your `.env` file to the repository. It contains sensitive information and should be kept private. Make sure `.env` is listed in your `.gitignore` file to prevent it from being committed.
