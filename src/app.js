@@ -12,7 +12,7 @@ app.use(
   })
 )
 app.use(express.json({limit: '50Kb'}))
-app.use(express.urlencoded({limit: '16Kb', extends: true}))
+app.use(express.urlencoded({limit: '16Kb', extended: true}))
 app.use(cookieParser())
 
 // Routes inport
