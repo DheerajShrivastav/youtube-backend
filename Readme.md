@@ -80,3 +80,66 @@ Here's a quick rundown of the cool features I've added to this project:
     Your server should now be running, and you can access it at `http://localhost:3000` or whatever port you've set in your environment variables.
 
 Remember to never commit your `.env` file to the repository. It contains sensitive information and should be kept private. Make sure `.env` is listed in your `.gitignore` file to prevent it from being committed.
+
+## setup project using the Docker 🐳 image 
+
+1. **Pull the Docker image from Docker Hub**: 
+    
+        ```bash
+        docker pull dheerajshrivastav/youtube-backend
+        ```
+2. **Run the Docker image**: 
+    
+        ```bash
+        docker run -p 3000:3000 dheerajshrivastav/youtube-backend
+        ```
+3. **Set up the .env file**: Create a new file in the root directory of the project named `.env`. This file will contain all your environment variables. Based on your project structure, you might need to set variables for your database connection, Cloudinary, and any other services your app uses.
+        
+        Here's an example of what your `.env` file might look like:
+    
+        ```javascript
+        DB_CONNECTION_STRING=mongodb+srv://username:password@cluster0.
+        mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+        CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+        ```
+        Replace the values with your actual connection strings.
+
+## setup project using the Docker 🐳 compose
+
+1. **Clone the repository**: Use the following command to clone the repository:
+
+    ```bash
+    git clone
+    ```
+    Replace `<repository_url>` with the URL of your repository.
+
+2. **Navigate to the project directory**: Use the following command to navigate to the project directory:
+
+    ```bash
+    cd youtube-backend
+    ```
+    Replace `<project_directory>` with the name of your project directory.
+
+3. **Install the dependencies**: Use the following command to install the project dependencies:
+
+    ```bash
+    npm dev
+    ```
+4. **Run the Docker compose**: Use the following command to run the Docker compose:
+
+    ```bash
+    docker-compose up
+    ```
+
+5. **Set up the .env file**: Create a new file in the root directory of the project named `.env`. This file will contain all your environment variables. Based on your project structure, you might need to set variables for your database connection, Cloudinary, and any other services your app uses.
+    
+    Here's an example of what your `.env` file might look like:
+
+    ```javascript
+    DB_CONNECTION_STRING=mongodb+srv://username:password@cluster0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+    CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+    ```
+    Replace the values with your actual connection strings.
+
+
+        
